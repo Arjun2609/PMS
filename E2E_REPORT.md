@@ -118,4 +118,4 @@ The E2E test script (`e2e-test.ps1`) executed the following flow successfully:
 
 ---
 
-*Report generated automatically in repository root.*
+_Report generated automatically in repository root._
