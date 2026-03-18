@@ -1,0 +1,664 @@
+.pets-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pets-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.pets-header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.add-pet-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  animation: slideInFromRight 0.8s ease-out 0.2s both;
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.add-pet-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.add-pet-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
+}
+
+.add-pet-btn:hover::before {
+  left: 100%;
+}
+
+.add-pet-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.add-pet-btn i {
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.add-pet-btn:hover i {
+  transform: rotate(90deg);
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.pet-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 1rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  animation: fadeInScale 0.6s ease-out both;
+}
+
+.pet-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.pet-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.pet-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.pet-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.pet-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.pet-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pet-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(79, 70, 229, 0.05),
+    transparent
+  );
+  transition: left 0.5s;
+  z-index: 1;
+}
+
+.pet-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.pet-card:hover::before {
+  left: 100%;
+}
+
+.pet-image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 3rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pet-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.1),
+    rgba(124, 58, 237, 0.1)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pet-card:hover .pet-image::before {
+  opacity: 1;
+}
+
+.pet-info {
+  padding: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.pet-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.pet-card:hover .pet-name {
+  color: #4f46e5;
+}
+
+.pet-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.pet-detail {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.pet-detail-label {
+  color: #6b7280;
+}
+
+.pet-detail-value {
+  color: #374151;
+  font-weight: 500;
+}
+
+.pet-card:hover .pet-detail {
+  transform: translateX(4px);
+}
+
+.pet-actions {
+  display: flex;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.pet-action-btn {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pet-action-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(79, 70, 229, 0.1),
+    transparent
+  );
+  transition: left 0.4s;
+}
+
+.pet-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pet-action-btn:hover::before {
+  left: 100%;
+}
+
+.pet-action-btn.primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border-color: #4f46e5;
+}
+
+.pet-action-btn.primary:hover {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  border-color: #4338ca;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.pet-action-btn.danger {
+  color: #dc2626;
+  border-color: #fecaca;
+  position: relative;
+}
+
+.pet-action-btn.danger:hover {
+  background-color: #fef2f2;
+  border-color: #dc2626;
+  color: #b91c1c;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.no-pets {
+  text-align: center;
+  padding: 3rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 1rem;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.no-pets h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.no-pets p {
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.no-pets .add-pet-btn {
+  display: inline-flex;
+  margin: 0 auto;
+}
+
+/* Pet Form Modal */
+.pet-form-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pet-form-container {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 1rem;
+  box-shadow:
+    0 20px 25px rgba(0, 0, 0, 0.1),
+    0 10px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideInScale 0.3s ease-out;
+  position: relative;
+}
+
+@keyframes slideInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.pet-form-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed, #ec4899);
+  border-radius: 1rem 1rem 0 0;
+}
+
+.pet-form-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.pet-form-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.close-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #dc2626;
+  transform: scale(1.1);
+}
+
+.close-btn:hover::before {
+  opacity: 1;
+}
+
+.close-btn:active {
+  transform: scale(0.95);
+}
+
+.pet-form {
+  padding: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  position: relative;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow:
+    0 0 0 3px rgba(79, 70, 229, 0.1),
+    0 4px 8px rgba(79, 70, 229, 0.1);
+  transform: translateY(-1px);
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+  border-color: #9ca3af;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+  transition: all 0.3s ease;
+}
+
+.form-group textarea:focus {
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #e5e7eb;
+  margin-top: 1.5rem;
+}
+
+.form-btn {
+  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.form-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.4s;
+}
+
+.form-btn:hover::before {
+  left: 100%;
+}
+
+.form-btn.primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2);
+}
+
+.form-btn.primary:hover {
+  background: linear-gradient(135deg, #4338ca, #6d28d9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3);
+}
+
+.form-btn.primary:active {
+  transform: translateY(0);
+}
+
+.form-btn.secondary {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: #374151;
+  border: 2px solid #d1d5db;
+}
+
+.form-btn.secondary:hover {
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+  border-color: #9ca3af;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-btn.secondary:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pets-page {
+    padding: 1rem;
+  }
+
+  .pets-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .pets-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .pet-form-container {
+    margin: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pets-header h1 {
+    font-size: 1.875rem;
+  }
+
+  .pet-card {
+    margin: 0 -0.5rem;
+  }
+}

@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PMS Frontend Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .test-result {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .pass {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .fail {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .warn {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+      .info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      h1 {
+        color: #333;
+      }
+      h2 {
+        color: #666;
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Pet Management System - Comprehensive Testing Report</h1>
+    <div id="test-results"></div>
+
+    <script>
+      const results = [];
+      let testCount = 0;
+
+      function addResult(testName, status, message, details = "") {
+        testCount++;
+        results.push({ testName, status, message, details });
+        updateDisplay();
+      }
+
+      function updateDisplay() {
+        const container = document.getElementById("test-results");
+        container.innerHTML = results
+          .map(
+            (result) => `
+                <div class="test-result ${result.status}">
+                    <strong>${result.testName}:</strong> ${result.message}
+                    ${result.details ? `<br><small>${result.details}</small>` : ""}
+                </div>
+            `,
+          )
+          .join("");
+
+        // Add summary
+        const summary = document.createElement("div");
+        summary.innerHTML = `
+                <h2>Test Summary</h2>
+                <div class="test-result info">
+                    <strong>Total Tests:</strong> ${testCount}<br>
+                    <strong>Passed:</strong> ${results.filter((r) => r.status === "pass").length}<br>
+                    <strong>Failed:</strong> ${results.filter((r) => r.status === "fail").length}<br>
+                    <strong>Warnings:</strong> ${results.filter((r) => r.status === "warn").length}
+                </div>
+            `;
+        container.appendChild(summary);
+      }
+
+      // Test 1: Check if React app loads
+      async function testReactApp() {
+        try {
+          const response = await fetch("http://localhost:3003");
+          if (response.ok) {
+            addResult(
+              "React App Loading",
+              "pass",
+              "Frontend server is accessible",
+            );
+          } else {
+            addResult(
+              "React App Loading",
+              "fail",
+              `Server responded with ${response.status}`,
+            );
+          }
+        } catch (error) {
+          addResult(
+            "React App Loading",
+            "fail",
+            "Cannot connect to frontend server",
+            error.message,
+          );
+        }
+      }
+
+      // Test 2: Check API connectivity
+      async function testAPIConnectivity() {
+        try {
+          const response = await fetch("http://localhost:5000/api/health");
+          const data = await response.json();
+          if (response.ok && data.status === "ok") {
+            addResult(
+              "API Connectivity",
+              "pass",
+              "Backend API is responding correctly",
+            );
+          } else {
+            addResult(
+              "API Connectivity",
+              "fail",
+              "API responded but with unexpected data",
+            );
+          }
+        } catch (error) {
+          addResult(
+            "API Connectivity",
+            "fail",
+            "Cannot connect to backend API",
+            error.message,
+          );
+        }
+      }
+
+      // Test 3: Check for JavaScript errors in console
+      function testJavaScriptErrors() {
+        const originalError = console.error;
+        let hasErrors = false;
+
+        console.error = function (...args) {
+          hasErrors = true;
+          originalError.apply(console, args);
+        };
+
+        // Wait a bit and check
+        setTimeout(() => {
+          console.error = originalError;
+          if (!hasErrors) {
+            addResult(
+              "JavaScript Errors",
+              "pass",
+              "No console errors detected",
+            );
+          } else {
+            addResult(
+              "JavaScript Errors",
+              "warn",
+              "Console errors detected - check browser console",
+            );
+          }
+        }, 2000);
+      }
+
+      // Test 4: Check CSS loading
+      function testCSSLoading() {
+        const links = document.querySelectorAll('link[rel="stylesheet"]');
+        let loadedCount = 0;
+
+        links.forEach((link) => {
+          if (link.sheet) {
+            loadedCount++;
+          }
+        });
+
+        if (loadedCount === links.length) {
+          addResult("CSS Loading", "pass", "All CSS files loaded successfully");
+        } else {
+          addResult(
+            "CSS Loading",
+            "warn",
+            `${loadedCount}/${links.length} CSS files loaded`,
+          );
+        }
+      }
+
+      // Test 5: Check responsive design
+      function testResponsiveDesign() {
+        const viewport = window.innerWidth;
+        if (viewport >= 320 && viewport <= 1920) {
+          addResult(
+            "Responsive Design",
+            "pass",
+            `Viewport width: ${viewport}px - within expected range`,
+          );
+        } else {
+          addResult(
+            "Responsive Design",
+            "warn",
+            `Viewport width: ${viewport}px - unusual size`,
+          );
+        }
+      }
+
+      // Test 6: Check for broken images
+      function testImages() {
+        const images = document.querySelectorAll("img");
+        let brokenCount = 0;
+
+        images.forEach((img) => {
+          img.addEventListener("error", () => brokenCount++);
+          img.addEventListener("load", () => {
+            if (brokenCount === 0 && --imageCount === 0) {
+              addResult(
+                "Image Loading",
+                "pass",
+                "All images loaded successfully",
+              );
+            }
+          });
+        });
+
+        let imageCount = images.length;
+        if (imageCount === 0) {
+          addResult("Image Loading", "info", "No images found to test");
+        }
+      }
+
+      // Test 7: Check form validation
+      function testFormValidation() {
+        // This would need to be run on specific pages with forms
+        addResult(
+          "Form Validation",
+          "info",
+          "Form validation testing requires page-specific tests",
+        );
+      }
+
+      // Test 8: Check local storage
+      function testLocalStorage() {
+        try {
+          localStorage.setItem("test", "value");
+          const value = localStorage.getItem("test");
+          localStorage.removeItem("test");
+
+          if (value === "value") {
+            addResult("Local Storage", "pass", "Local storage is working");
+          } else {
+            addResult(
+              "Local Storage",
+              "fail",
+              "Local storage not working correctly",
+            );
+          }
+        } catch (error) {
+          addResult(
+            "Local Storage",
+            "fail",
+            "Local storage not available",
+            error.message,
+          );
+        }
+      }
+
+      // Run all tests
+      window.addEventListener("load", () => {
+        testReactApp();
+        testAPIConnectivity();
+        testJavaScriptErrors();
+        testCSSLoading();
+        testResponsiveDesign();
+        testImages();
+        testFormValidation();
+        testLocalStorage();
+      });
+
+      // Also test when DOM is ready
+      document.addEventListener("DOMContentLoaded", () => {
+        addResult("DOM Loading", "pass", "Document loaded successfully");
+      });
+    </script>
+  </body>
+</html>
